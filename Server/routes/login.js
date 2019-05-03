@@ -1,16 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const functions = require("../functions.js");
-const mongoose = require("mongoose");
 const user = require("../models/user");
+const bodyParser = require('body-parser');
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({extended: false}));
 
 
 router.post("/login", function (req, res) {
 
     let data = req.body;
     let password = data.password;
-    let name = data.name;
     let email = data.email;
+    console.log(data);
 
     user.find({ "email": email })
         .countDocuments(function (err, number) {
@@ -23,14 +26,13 @@ router.post("/login", function (req, res) {
                     
                     let docString = JSON.stringify(doc);
                     let docJSON = JSON.parse(docString);
-
                     let salt = docJSON.salt;
                     let hashedPassword = functions.checkHashPassword(password, salt).passwordHash;
                     let encryptedPassword = docJSON.password;
 
                     if(hashedPassword == encryptedPassword) {
                         res.json("Login successful!");
-                        console.log("Login successful!");                        
+                        console.log("Login successful!");
                     } else {
                         res.json("Wrong Password!");
                         console.log("Wrong Password!");    

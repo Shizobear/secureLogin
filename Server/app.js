@@ -20,7 +20,7 @@ user.deleteMany({}, function(err){
 });
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 
 
 const routeRegistration = require("./routes/registration");
@@ -29,7 +29,7 @@ app.use(routeRegistration);
 app.use(routeLogin);
 
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/web/index.html');
+  res.sendFile(__dirname + '/web/login.html');
 });
 
 io.on('connection', function(socket) {
