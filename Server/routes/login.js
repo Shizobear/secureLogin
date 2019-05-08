@@ -3,6 +3,7 @@ const router = express.Router();
 const functions = require("../functions.js");
 const user = require("../models/user");
 const bodyParser = require('body-parser');
+let path = require('path');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended: false}));
@@ -31,7 +32,7 @@ router.post("/login", function (req, res) {
                     let encryptedPassword = docJSON.password;
 
                     if(hashedPassword == encryptedPassword) {
-                        res.json("Login successful!");
+                        res.redirect('/login');
                         console.log("Login successful!");
                     } else {
                         res.json("Wrong Password!");
@@ -43,6 +44,10 @@ router.post("/login", function (req, res) {
 
         });
 
+});
+
+router.get("/login", function(req, res) {
+    res.sendFile(path.resolve(__dirname + '/../web/index.html'));
 });
 
 
