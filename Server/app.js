@@ -22,6 +22,8 @@ user.deleteMany({}, function(err){
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 const routeRegistration = require("./routes/registration");
 const routeLogin = require("./routes/login");
@@ -29,7 +31,7 @@ app.use(routeRegistration);
 app.use(routeLogin);
 
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/web/login.html');
+  res.render('login.ejs');
 });
 
 io.on('connection', function(socket) {

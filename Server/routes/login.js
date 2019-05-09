@@ -32,7 +32,7 @@ router.post("/login", function (req, res) {
                     let encryptedPassword = docJSON.password;
 
                     if(hashedPassword == encryptedPassword) {
-                        res.redirect('/login');
+                        res.render('index.ejs');
                         console.log("Login successful!");
                     } else {
                         res.json("Wrong Password!");
@@ -45,10 +45,5 @@ router.post("/login", function (req, res) {
         });
 
 });
-
-router.get("/login", function(req, res) {
-    res.sendFile(path.resolve(__dirname + '/../web/index.html'));
-});
-
 
 module.exports = router;
